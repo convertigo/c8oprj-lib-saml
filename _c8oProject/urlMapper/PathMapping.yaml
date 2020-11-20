@@ -1,0 +1,5 @@
+path: /SAML
+↓PostOperation [rest.PostOperation]: 
+  targetRequestable: lib_SAML.Authentiticate
+  ↓SAMLResponse [rest.FormParameter-1605537506625]: 
+    mappedVariableName: SAMLResponse

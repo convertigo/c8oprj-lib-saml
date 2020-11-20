@@ -1,0 +1,26 @@
+apply plugin: 'java'
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src'
+		}
+	}
+}
+
+repositories {
+    jcenter() 
+}
+
+dependencies {
+  	compile group: 'org.opensaml', name: 'opensaml', version: '2.6.4'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.convertigo.lib.opentok.Main'
+    } 
+    doFirst {
+        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+}
