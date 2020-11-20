@@ -124,8 +124,10 @@
     	
     	//Validate the XMLSignature.
     	bValid = xmlSignature.validate(domValContext);
-    	if (bValid) 
+    	if (bValid) {
     		log.debug("[SAML] response assertion is valid !");
+    		userId = twsApi.selectNode(uriAttr.getOwnerDocument(), "//saml2:NameID").getNodeValue();
+    	}
     	else
     		log.error("[SAML] response assertion is invalid !");
     
@@ -137,6 +139,9 @@
 ↓jElement [steps.ElementStep-1605622044150]: 
   expression: bValid
   nodeName: Verified
+↓jElement1 [steps.ElementStep-1605897063345]: 
+  expression: userId
+  nodeName: UserID
 ↓SAMLResponse [variables.RequestableVariable-1605537029507]: 
 ↓TestKOAlteratedContent [core.TestCase]: 
   ↓SAMLResponse [variables.TestCaseVariable-1605896076676]: 
