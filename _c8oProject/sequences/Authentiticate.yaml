@@ -11,7 +11,14 @@
   variableName: jBase64EncodedSAML
 ↓VerifyUsingXMLSignature [steps.SimpleStep-1605705602994]: 
   expression: |
-    'baisSAML = new java.io.ByteArrayInputStream(
+    '/**
+     * This code verify the SAML assertion based on XMLsecurity API
+     */
+    
+    // Assume not Valid
+    bValid = false;
+    
+    baisSAML = new java.io.ByteArrayInputStream(
     		org.apache.commons.codec.binary.Base64.decodeBase64(jBase64EncodedSAML)
     );
     
@@ -34,7 +41,7 @@
     );
     
     
-    // Create a Custom URIdeferencer
+    // Create a Custom URIdeferencer see https://issues.apache.org/jira/browse/SANTUARIO-312
     MyUriDereferencer = new JavaAdapter(javax.xml.crypto.URIDereferencer, {
     	dereference: function(uriRef,  context) {
     		 log.debug("[SAML] dereference entered");
