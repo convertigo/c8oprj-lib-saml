@@ -126,7 +126,7 @@
     	bValid = xmlSignature.validate(domValContext);
     	if (bValid) {
     		log.debug("[SAML] response assertion is valid !");
-    		userId = twsApi.selectNode(uriAttr.getOwnerDocument(), "//saml2:NameID").getNodeValue();
+    		userId = "saml2:" + twsApi.selectNode(dom, "//NameID").getTextContent();
     	}
     	else
     		log.error("[SAML] response assertion is invalid !");
