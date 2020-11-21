@@ -198,9 +198,17 @@
     		log.debug("[SAML] response assertion is valid !");
     		userId = "saml2:" + twsApi.selectNode(dom, "//NameID").getTextContent();
     	}
-    	else
+    	else {
     		log.error("[SAML] response assertion is invalid !");
-    
+    	    sv = xmlSignature.getSignatureValue().validate(domValContext);
+            // Check the validation status of each Reference.
+            i = xmlSignature.getSignedInfo().getReferences().iterator();
+            for (j=0; i.hasNext(); j++) {
+    			ref = i.next();
+                refValid = ref.validate(domValContext);
+                log.error("[SAML] " + ref.getURI() + " validity status is: " + refValid);
+            }
+    	}
     } else {
     	log.error("[SAML] No Signature Node found !");
     }
