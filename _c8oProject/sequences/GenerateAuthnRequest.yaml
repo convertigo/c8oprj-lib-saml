@@ -18,18 +18,17 @@
     "</samlp:AuthnRequest>";
     
     xmlBytes  = new java.lang.String(XML).getBytes("UTF-8");
-    output 	  = new java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
-    deflater  = new java.util.zip.Deflater();
+    deflater  = new java.util.zip.Deflater(java.util.zip.Deflater.DEFLATED, true);
+    bytesOut  = new java.io.ByteArrayOutputStream();
     
-    deflater.setInput(xmlBytes);
+    deflaterStream = new java.util.zip.DeflaterOutputStream(bytesOut, deflater);
+    deflaterStream.write(xmlBytes, 0, xmlBytes.length);
+    deflaterStream.close();
     deflater.finish();
-    size = deflater.deflate(output);
-    deflater.end();
     
-    b64 = org.apache.commons.codec.binary.Base64.encodeBase64(output);
+    sAuthn 	= org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray());
+    // sAuthn 	= org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(bytesOut.toByteArray());
     
-    urlEncoder = new org.apache.commons.codec.net.URLCodec("UTF-8");
-    sAuthn = new java.lang.String(urlEncoder.encode(b64));
     
     '
 ↓jElement [steps.ElementStep-1605977616787]: 
