@@ -1,3 +1,4 @@
+↓Input_variables [steps.InputVariablesStep-1606035377079]: 
 ↓Get_from_session [steps.SessionGetStep-1605959826491]: 
   key: SAMLToken
   output: false
@@ -18,6 +19,63 @@
     ↓Element [steps.XMLElementStep-1605960081289]: 
       nodeName: SAML
       nodeText: NoToken
-↓Element [steps.XMLElementStep-1605966253885]: 
-  nodeName: SAMLIdpServiceURL
-  nodeText: https://login.microsoftonline.com/8a22dd7e-cfa3-4d41-8370-e59bb65a8a72/saml2
+    ↓Call_Sequence [steps.SequenceStep-1606035182636]: 
+      sourceSequence: lib_SAML.GenerateAuthnRequest
+      ↓IDPEntityID [variables.StepVariable-1606035574472]: 
+        sourceDefinition: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+            - com.twinsoft.convertigo.beans.common.XMLVector: 
+              - java.lang.String: 
+                - ↑value: 1606035377079
+              - java.lang.String: 
+                - ↑value: ./SAMLEntityId/text()
+    ↓Concat [steps.XMLConcatStep-1606035211312]: 
+      nodeName: SAMLIdpServiceURL
+      separator: 
+      sourcesDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                    - java.lang.String: 
+                      - ↑value: 1606035377079
+                    - java.lang.String: 
+                      - ↑value: ./SAMLSsoServiceURL/text()
+                - java.lang.String: 
+                  - ↑value: ''
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: '?SAMLRequest='
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                    - java.lang.String: 
+                      - ↑value: 1606035182636
+                    - java.lang.String: 
+                      - ↑value: ./document/AuthnRequest/text()
+                - java.lang.String: 
+                  - ↑value: ''
+↓SAMLSsoServiceURL [variables.RequestableVariable-1606034807943]: 
+  value: ${lib_SAML.IdpSSOServiceURL}
+↓SAMLEntityId [variables.RequestableVariable-1606034970652]: 
+  value: ${lib_SAML.SPEntityID}

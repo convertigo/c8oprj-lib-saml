@@ -1,9 +1,9 @@
-↓Generate [steps.SimpleStep-1605975616434]: 
+↓GenerateDefalteAndBAse64Encode [steps.SimpleStep-1605975616434]: 
   expression: |
     '
     
     XML =
-    "<samlp:AuthnRequest" +
+    "<samlp:AuthnRequest " +
         "xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\" "+
         "xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\" "+
         "ID=\"aaf23196-1773-2113-474a-fe114412ab72\" "+
@@ -11,8 +11,8 @@
         "IssueInstant=\"2004-12-05T09:21:59Z\" "+
         "AssertionConsumerServiceIndex=\"0\" "+
         "AttributeConsumingServiceIndex=\"0\"> "+
-        "<saml:Issuer>https://sp.example.com/SAML2</saml:Issuer>" +
-        "<samlp:NameIDPolicy" + 
+        "<saml:Issuer>" + IDPEntityID + "</saml:Issuer>" +
+        "<samlp:NameIDPolicy " + 
     	      "AllowCreate=\"true\" "+
     	      "Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:transient\"/>" +
     "</samlp:AuthnRequest>";
@@ -34,3 +34,4 @@
 ↓jElement [steps.ElementStep-1605977616787]: 
   expression: sAuthn
   nodeName: AuthnRequest
+↓IDPEntityID [variables.RequestableVariable-1606035558565]: 
