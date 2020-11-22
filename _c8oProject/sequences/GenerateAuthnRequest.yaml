@@ -26,8 +26,7 @@
     deflaterStream.close();
     deflater.finish();
     
-    sAuthn 	= org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray());
-    // sAuthn 	= org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(bytesOut.toByteArray());
+    sAuthn 	= encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;
     
     
     '

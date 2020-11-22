@@ -15,7 +15,7 @@ This is the SAML 2.0 Authentication library for Convertigo platform. Install thi
 
 ## Configuring your SSO IDP (Identity provider)
 
-You will need at least 2 Fields to be configured in your SSO IDP :
+You will need at least 2 Fields to be configured in your SSO IDP when you will declare a new application :
  * The Identifier (Entity ID) 
  * The Reply URL (Assertion Consumer Service URL)
 
@@ -23,12 +23,32 @@ Here is the what you have to configure in these fields :
 
 Field | value
 ------| ------
-Entity ID | Your Convertigo &lt;server URL&gt; for example, https://mysite.convertigo.net/convertigo for a Convertigo cloud instance
-Assertion Service URL (ACS URL) | The URL to your Convertigo SAML API endpoint. This is set to your &lt;Server URL&gt;/api/SAML. for example https://mysite.convertigo.net/convertigo/api/SAML
+Entity ID | Your Convertigo &lt;server URL&gt; for example, this should be set to __https://&lt;mysite&gt;.convertigo.net/convertigo__ for a Convertigo cloud instance
+Assertion Service URL (ACS URL) | The URL to your Convertigo SAML API endpoint. This is should be set to your &lt;Server URL&gt;/api/SAML. for example __https://&lt;mysite&gt;.convertigo.net/convertigo/api/SAML__
+
+Find below links to Configure SSO for classic IDP providers :
+
+Provider | Link
+-------- | ------------
+Google Web & Mobile Apps |  https://admin.google.com/ac/apps/unified
+Microsoft Azure Active Directory |  https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/
+
+
+
+## Configuring Convertigo Symbols
+
+lib_SAML needs some symbols to be configured. You configure them trough the Web Console: https://&lt;your site&gt;.convertigo.net/admin, hit the ___symbols___ button to get to the symbol configuration page.
+
+
+Symbol  | value
+------| ------
+lib_SAML.IdpSSOServiceURL | The IDP Service URL. This information is available once you configured a new application in the IDP. for example for Azure Directory, something like : https://login.microsoftonline.com/8a22dd7e-cfa3-4d41-8370-e59bb65a8a72/saml2 or for Google Login, something like : https://accounts.google.com/o/saml2/idp?idpid=C02myon1q
+lib_SAML.lib_SAML.SPEntityID | You application's Entity ID. The same you configured in your SSO Idp. for example : __https://&lt;mysite&gt;.convertigo.net/convertigo__ 
+
 
 ## Flows
 
-### Classic flow.
+### SAML 2.0 Classic flow (Authentication Request Protocol).
 
-When a user access your application, you must redirect it to the SSO IDP. The IDP will present the user a Sign In dialog if he is not already signed with it. When the sign in is complete, the IDP will redirect the user to your application.
+When a user access your application, he will be redirected the SSO IDP. The IDP will present the user a Sign In dialog if he is not already signed with it. When the sign in is complete, the IDP will redirect the user to your application.
 
