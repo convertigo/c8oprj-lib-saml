@@ -5,6 +5,8 @@
   version: 1.0
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
+  ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
+  ↓GenerateAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateAuthnRequest.yaml
   ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
   ↓MobileApplication [core.MobileApplication]: 
     comment: Describes the mobile application global properties

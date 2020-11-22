@@ -197,6 +197,7 @@
     	if (bValid) {
     		log.debug("[SAML] response assertion is valid !");
     		userId = "saml2:" + twsApi.selectNode(dom, "//NameID").getTextContent();
+    		context.httpServletRequest.getSession().setAttribute("SAMLToken", dom);
     	}
     	else {
     		log.error("[SAML] response assertion is invalid !");
@@ -217,9 +218,47 @@
 ↓jElement [steps.ElementStep-1605622044150]: 
   expression: bValid
   nodeName: Verified
-↓jElement1 [steps.ElementStep-1605897063345]: 
-  expression: userId
-  nodeName: UserID
+↓IfExistThenElse [steps.IfExistThenElseStep-1605959536731]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1605622044150
+        - java.lang.String: 
+          - ↑value: .[text() = 'true']
+  ↓jThen [steps.ThenStep-1605959537216]: 
+    ↓jElement1 [steps.ElementStep-1605897063345]: 
+      expression: userId
+      nodeName: UserID
+    ↓Set_authenticated_user [steps.SetAuthenticatedUserStep-1605959724596]: 
+      userid: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: SOURCE
+            - com.twinsoft.convertigo.beans.common.XMLVector: 
+              - java.lang.String: 
+                - ↑value: 1605897063345
+              - java.lang.String: 
+                - ↑value: ./text()
+  ↓jElse [steps.ElseStep-1605959537218]: 
+    ↓Remove_authenticated_user [steps.RemoveAuthenticatedUserStep-1605960019315]: 
+    ↓Remove_from_session [steps.SessionRemoveStep-1605960036098]: 
+      key: SAMLToken
+    ↓Error_structure [steps.XMLErrorStep-1605959639011]: 
+      code: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: 100
+      message: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: Not a Valid SAML Token
 ↓SAMLResponse [variables.RequestableVariable-1605537029507]: 
 ↓TestKOAlteratedContent [core.TestCase]: 
   ↓SAMLResponse [variables.TestCaseVariable-1605896076676]: 

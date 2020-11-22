@@ -1,0 +1,23 @@
+↓Get_from_session [steps.SessionGetStep-1605959826491]: 
+  key: SAMLToken
+  output: false
+↓IfExistThenElse [steps.IfExistThenElseStep-1605959895626]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1605959826491
+        - java.lang.String: 
+          - ↑value: ./expression
+  ↓jThen [steps.ThenStep-1605959896252]: 
+    ↓Element [steps.XMLElementStep-1605959935828]: 
+      nodeName: SAML
+      nodeText: ok
+  ↓jElse [steps.ElseStep-1605959896254]: 
+    ↓Element [steps.XMLElementStep-1605960081289]: 
+      nodeName: SAML
+      nodeText: NoToken
+↓Element [steps.XMLElementStep-1605966253885]: 
+  nodeName: SAMLIdpServiceURL
+  nodeText: https://login.microsoftonline.com/8a22dd7e-cfa3-4d41-8370-e59bb65a8a72/saml2

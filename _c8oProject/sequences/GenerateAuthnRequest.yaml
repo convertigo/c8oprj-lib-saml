@@ -1,0 +1,37 @@
+↓Generate [steps.SimpleStep-1605975616434]: 
+  expression: |
+    '
+    
+    XML =
+    "<samlp:AuthnRequest" +
+        "xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\" "+
+        "xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\" "+
+        "ID=\"aaf23196-1773-2113-474a-fe114412ab72\" "+
+        "Version=\"2.0\" "+
+        "IssueInstant=\"2004-12-05T09:21:59Z\" "+
+        "AssertionConsumerServiceIndex=\"0\" "+
+        "AttributeConsumingServiceIndex=\"0\"> "+
+        "<saml:Issuer>https://sp.example.com/SAML2</saml:Issuer>" +
+        "<samlp:NameIDPolicy" + 
+    	      "AllowCreate=\"true\" "+
+    	      "Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:transient\"/>" +
+    "</samlp:AuthnRequest>";
+    
+    xmlBytes  = new java.lang.String(XML).getBytes("UTF-8");
+    output 	  = new java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
+    deflater  = new java.util.zip.Deflater();
+    
+    deflater.setInput(xmlBytes);
+    deflater.finish();
+    size = deflater.deflate(output);
+    deflater.end();
+    
+    b64 = org.apache.commons.codec.binary.Base64.encodeBase64(output);
+    
+    urlEncoder = new org.apache.commons.codec.net.URLCodec("UTF-8");
+    sAuthn = new java.lang.String(urlEncoder.encode(b64));
+    
+    '
+↓jElement [steps.ElementStep-1605977616787]: 
+  expression: sAuthn
+  nodeName: AuthnRequest
