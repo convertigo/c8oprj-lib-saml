@@ -93,7 +93,7 @@ title: First page
             - com.twinsoft.convertigo.beans.common.FormatedContent: 
               →: |
                 '		page.c8o.log.debug(''[MB] ''+ props.actionFunction +'': ''+ props.actionName);
-                		window.location.href = encodeURI(vars.url);
+                		window.location.href = vars.url;
                 		resolve();
                 '
         ↓url [mobile.components.UIControlVariable-1605966392669]: 
