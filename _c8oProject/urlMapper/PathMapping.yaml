@@ -3,3 +3,5 @@ path: /SAML
   targetRequestable: lib_SAML.Authentiticate
   ↓SAMLResponse [rest.FormParameter-1605537506625]: 
     mappedVariableName: SAMLResponse
+  ↓RelayState [rest.FormParameter-1606116320211]: 
+    mappedVariableName: RelayState

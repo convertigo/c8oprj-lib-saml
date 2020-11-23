@@ -75,6 +75,30 @@
                       - ↑value: ./document/AuthnRequest/text()
                 - java.lang.String: 
                   - ↑value: ''
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: '&RelayState=http://localhost:18080/convertigo/projects/lib_SAML/DispayObject/mobile/index.html'
+    ↓Set_response_header [steps.SetResponseHeaderStep-1606117861501]: 
+    ↓Set_response_status [steps.SetResponseStatusStep-1606117885598]: 
+      statusCode: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: 302
+      statusText: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: Redirect
 ↓SAMLSsoServiceURL [variables.RequestableVariable-1606034807943]: 
   value: ${lib_SAML.IdpSSOServiceURL}
 ↓SAMLEntityId [variables.RequestableVariable-1606034970652]: 
