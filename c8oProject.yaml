@@ -7,7 +7,6 @@
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
   ↓GenerateAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateAuthnRequest.yaml
-  ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
   ↓MobileApplication [core.MobileApplication]: 
     comment: Describes the mobile application global properties
     splashRemoveMode: beforeUpdate
@@ -16,3 +15,4 @@
     ↓iOS [mobileplatforms.IOs]: 
       comment: iOS platform
     ↓Application [mobile.components.ApplicationComponent]: 🗏 mobileApplication.yaml
+  ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml

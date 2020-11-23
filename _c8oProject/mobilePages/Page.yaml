@@ -85,7 +85,7 @@ title: First page
   ↓CallSequenceCheckSAMLToken [mobile.components.UIDynamicAction-1605966134173]: 
     beanData: '{"ionBean":"CallSequenceAction","requestable":"plain:lib_SAML.CheckSAMLToken"}'
     ↓IfNotSAMLToken [mobile.components.UIDynamicAction-1605966161101]: 
-      beanData: '{"ionBean":"IfAction","condition":"script:parent.out.SAML != ''OK''"}'
+      beanData: '{"ionBean":"IfAction","condition":"script:parent.out.SAML == ''NoToken''"}'
       ↓RedirectToIDP [mobile.components.UICustomAction-1605966339797]: 
         actionValue: 
           - xmlizable: 
@@ -100,4 +100,10 @@ title: First page
           varValue: 
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-              - MobileSmartSourceType: source:{"filter":"Sequence","project":"lib_SAML","input":"","model":{"data":[{"sequence":"lib_SAML.CheckSAMLToken","marker":""}],"path":"?.SAMLIdpServiceURL","prefix":"","suffix":"","custom":"","useCustom":false}}
+              - MobileSmartSourceType: script:stack['CallSequenceCheckSAMLToken'].out.SAMLIdpServiceURL
+    ↓CallingApplicationURL [mobile.components.UIControlVariable-1606138927409]: 
+      comment: new variable
+      varValue: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+          - MobileSmartSourceType: script:window.location.href

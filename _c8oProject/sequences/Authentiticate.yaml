@@ -242,6 +242,36 @@
                 - ↑value: 1605897063345
               - java.lang.String: 
                 - ↑value: ./text()
+    ↓RedirectToRelayStateValue [steps.SetResponseHeaderStep-1606117861501]: 
+      headerName: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: Location
+      headerValue: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: SOURCE
+            - com.twinsoft.convertigo.beans.common.XMLVector: 
+              - java.lang.String: 
+                - ↑value: 1605537182190
+              - java.lang.String: 
+                - ↑value: ./RelayState/text()
+    ↓ResponseStatus302 [steps.SetResponseStatusStep-1606136508332]: 
+      statusCode: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: 302
+      statusText: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: Redirect
   ↓jElse [steps.ElseStep-1605959537218]: 
     ↓Remove_authenticated_user [steps.RemoveAuthenticatedUserStep-1605960019315]: 
     ↓Remove_from_session [steps.SessionRemoveStep-1605960036098]: 

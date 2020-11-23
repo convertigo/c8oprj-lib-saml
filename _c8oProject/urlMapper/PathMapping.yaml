@@ -5,3 +5,6 @@ path: /SAML
     mappedVariableName: SAMLResponse
   ↓RelayState [rest.FormParameter-1606116320211]: 
     mappedVariableName: RelayState
+  ↓OperationResponse [rest.OperationResponse]: 
+    statusCode: 302
+    statusText: Redirect
