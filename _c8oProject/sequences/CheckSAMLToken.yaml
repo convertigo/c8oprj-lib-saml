@@ -1,3 +1,4 @@
+comment: Checks if the session is already SAML authenticated and if not computes a SAML AutnRequest
 ↓Input_variables [steps.InputVariablesStep-1606035377079]: 
 ↓Get_from_session [steps.SessionGetStep-1605959826491]: 
   key: SAMLToken
@@ -100,7 +101,10 @@
                 - java.lang.String: 
                   - ↑value: ''
 ↓SAMLSsoServiceURL [variables.RequestableVariable-1606034807943]: 
+  comment: The IDP service URL
   value: ${lib_SAML.IdpSSOServiceURL}
 ↓SAMLEntityId [variables.RequestableVariable-1606034970652]: 
+  comment: Our SP identity ID
   value: ${lib_SAML.SPEntityID}
 ↓CallingApplicationURL [variables.RequestableVariable-1606138900340]: 
+  comment: The URL we should redirect to when Auth is completed

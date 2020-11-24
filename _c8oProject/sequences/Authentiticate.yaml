@@ -1,3 +1,4 @@
+comment: This sequence is called by th IDP with a SAMLResponse Token. 
 ↓Input_variables [steps.InputVariablesStep-1605537182190]: 
 ↓jBase64EncodedSAML [steps.SimpleSourceStep-1605538001093]: 
   sourceDefinition: 
@@ -10,18 +11,21 @@
           - ↑value: ./SAMLResponse/text()
   variableName: jBase64EncodedSAML
 ↓VerifyUsingXMLSignature [steps.SimpleStep-1605705602994]: 
+  comment: Where the magic happens...
   expression: |
     '/**
-     * This code verify the SAML assertion based on XMLsecurity API
+     * This code verifies the SAML assertion based on XMLsecurity API
      */
     
     // Assume not Valid
     bValid = false;
     
+    // Decode the token from Base64
     baisSAML = new java.io.ByteArrayInputStream(
     		org.apache.commons.codec.binary.Base64.decodeBase64(jBase64EncodedSAML)
     );
     
+    // Parse it to XML
     try {
     	dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
     	dbf.setNamespaceAware(true);
@@ -34,7 +38,7 @@
     // We will use the Convertigo XPath API..
     twsApi = new com.twinsoft.convertigo.engine.util.TwsCachedXPathAPI();
     
-    
+    //Declare a KeySelectorResult we will use in our verification process...
     KeySelectorResult = new JavaAdapter(javax.xml.crypto.KeySelectorResult, {
     	putKey: function(key) {
     		this.myKey = key;
@@ -197,11 +201,14 @@
     	if (bValid) {
     		log.debug("[SAML] response assertion is valid !");
     		userId = "saml2:" + twsApi.selectNode(dom, "//NameID").getTextContent();
+    		
+    		// Save our Token in the session so we can check if we are Already Aunthenticated
     		context.httpServletRequest.getSession().setAttribute("SAMLToken", dom);
     	}
     	else {
     		log.error("[SAML] response assertion is invalid !");
     	    sv = xmlSignature.getSignatureValue().validate(domValContext);
+    
             // Check the validation status of each Reference.
             i = xmlSignature.getSignedInfo().getReferences().iterator();
             for (j=0; i.hasNext(); j++) {
@@ -290,7 +297,9 @@
             - ↑mode: PLAIN
             - →→: Not a Valid SAML Token
 ↓SAMLResponse [variables.RequestableVariable-1605537029507]: 
+  comment: The SAMLresponse Token base64 encoded
 ↓RelayState [variables.RequestableVariable-1606116350150]: 
+  comment: An opaque value relayed by the IDP. In our case, the App's URL to be redirected when Auth is done
 ↓TestKOAlteratedContent [core.TestCase]: 
   ↓SAMLResponse [variables.TestCaseVariable-1605896076676]: 
     value: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHNhbWwycDpSZXNwb25zZSB4bWxuczpzYW1sMnA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgRGVzdGluYXRpb249Imh0dHBzOi8vcGVkcm8uY29udmVydGlnby5uZXQvY29udmVydGlnby9hcGkvU0FNTCIgSUQ9Il80MzFhZWQzYjdiYzRkNDY0MTgxOWM1ZDMyM2RkNmFlMCIgSXNzdWVJbnN0YW50PSIyMDIwLTExLTE3VDE0OjQ2OjQxLjAwOVoiIFZlcnNpb249IjIuMCI+PHNhbWwyOklzc3VlciB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiI+aHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tL28vc2FtbDI/aWRwaWQ9QzAybXlvbjFxPC9zYW1sMjpJc3N1ZXI+PHNhbWwycDpTdGF0dXM+PHNhbWwycDpTdGF0dXNDb2RlIFZhbHVlPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6c3RhdHVzOlN1Y2Nlc3MiLz48L3NhbWwycDpTdGF0dXM+PHNhbWwyOkFzc2VydGlvbiB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiIgSUQ9Il9iNmY0ODFlMWQ0NjFhYjEwZmU3OGYwMmM0M2RiYmVjNyIgSXNzdWVJbnN0YW50PSIyMDIwLTExLTE3VDE0OjQ2OjQxLjAwOVoiIFZlcnNpb249IjIuMCI+PHNhbWwyOklzc3Vlcj5odHRwczovL2FjY291bnRzLmdvb2dsZS5jb20vby9zYW1sMj9pZHBpZD1DMDJteW9uMXE8L3NhbWwyOklzc3Vlcj48ZHM6U2lnbmF0dXJlIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIj48ZHM6U2lnbmVkSW5mbz48ZHM6Q2Fub25pY2FsaXphdGlvbk1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIvPjxkczpTaWduYXR1cmVNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNyc2Etc2hhMjU2Ii8+PGRzOlJlZmVyZW5jZSBVUkk9IiNfYjZmNDgxZTFkNDYxYWIxMGZlNzhmMDJjNDNkYmJlYzciPjxkczpUcmFuc2Zvcm1zPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjZW52ZWxvcGVkLXNpZ25hdHVyZSIvPjxkczpUcmFuc2Zvcm0gQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzEwL3htbC1leGMtYzE0biMiLz48L2RzOlRyYW5zZm9ybXM+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMDQveG1sZW5jI3NoYTI1NiIvPjxkczpEaWdlc3RWYWx1ZT5GOGhjN01CMGxPQ2VjOHFJRzJGKzRPa1JYUCs4cm9QeURFRXZuQTBQRUhBPTwvZHM6RGlnZXN0VmFsdWU+PC9kczpSZWZlcmVuY2U+PC9kczpTaWduZWRJbmZvPjxkczpTaWduYXR1cmVWYWx1ZT5wWUY1bnFpWjYydmY4MUNIcFVlWkpSVmM1bEtKMnUxMVBBUGI2Q3V0ek8vVDdROTRTSHRMTFVuM3hZZ0FPY1BPU0FVYktBZFkzRDZWDQoybHpkUEZLVVhUc2lobVlVZUxsUDdvR0tDUjZkSzIzUnJaSC9rdlZMSFhmMmJjSlJxRXQ0Rk5mWjRXb1d0UitnanliMHRjbk9PVXJzDQpYRzVNeVlOZDZYcXZUSnJrZ2RqUkRURm9ZZTdyNUFWb3lhQTlFUzBZbStlRnIralMvR3RwS2FwNThNeXorNk9MT3pIMytkQjJWOHhFDQpsbUJqdkRCb1VSNGk3SkVON1k3RlZ1V0hkSHY3RC9HN2N2bzVZdnlBMDRXS3Q4dGcvT0txdGRLQUprWmhTalR5WE1wZ0ZwVnVRVkhNDQpiZWtYalZwNDJvUTVDOENIVU9ZZzJaejQwU2FvQWpsMy9tU05NZz09PC9kczpTaWduYXR1cmVWYWx1ZT48ZHM6S2V5SW5mbz48ZHM6WDUwOURhdGE+PGRzOlg1MDlTdWJqZWN0TmFtZT5TVD1DYWxpZm9ybmlhLEM9VVMsT1U9R29vZ2xlIEZvciBXb3JrLENOPUdvb2dsZSxMPU1vdW50YWluIFZpZXcsTz1Hb29nbGUgSW5jLjwvZHM6WDUwOVN1YmplY3ROYW1lPjxkczpYNTA5Q2VydGlmaWNhdGU+TUlJRGREQ0NBbHlnQXdJQkFnSUdBWFRpMU5GYU1BMEdDU3FHU0liM0RRRUJDd1VBTUhzeEZEQVNCZ05WQkFvVEMwZHZiMmRzWlNCSg0KYm1NdU1SWXdGQVlEVlFRSEV3MU5iM1Z1ZEdGcGJpQldhV1YzTVE4d0RRWURWUVFERXdaSGIyOW5iR1V4R0RBV0JnTlZCQXNURDBkdg0KYjJkc1pTQkdiM0lnVjI5eWF6RUxNQWtHQTFVRUJoTUNWVk14RXpBUkJnTlZCQWdUQ2tOaGJHbG1iM0p1YVdFd0hoY05NakF4TURBeA0KTURZeU16VXdXaGNOTWpVd09UTXdNRFl5TXpVd1dqQjdNUlF3RWdZRFZRUUtFd3RIYjI5bmJHVWdTVzVqTGpFV01CUUdBMVVFQnhNTg0KVFc5MWJuUmhhVzRnVm1sbGR6RVBNQTBHQTFVRUF4TUdSMjl2WjJ4bE1SZ3dGZ1lEVlFRTEV3OUhiMjluYkdVZ1JtOXlJRmR2Y21zeA0KQ3pBSkJnTlZCQVlUQWxWVE1STXdFUVlEVlFRSUV3cERZV3hwWm05eWJtbGhNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QQ0KTUlJQkNnS0NBUUVBN3NnQ2JRTHc1MTlkcDA1aUN3UEhpQ3FzSzRjZ0VYL21lS0Nyak5iY1ZwWlRIbUhSYTBvU0RTOC9hNXkvM0lQYQ0KbVBlNlk3R21IYmZSSWVVeXFlbTNqSnVxSTZQZzlhZm5TZG1SVXY0T1pJVHFsQjhvWTdtTCtYSEVRTXBPRzRKOTFiQVlQREVKU0JkZA0KMmoxSjJtazN5ejFzbEVtVmJnbXB0bjYybGZiN1Q4L3czcHNwK1ZRR2VXVnRFM0RGUG9VMVhFWXNCY3luQmN3Zlgva3I0b09sWVlRMA0KTVpmdU5BUUErWmRFYU1keVpIR0FRMldlcGQyNUdZZ0FTUTlDSEpMOHdHbWt3RVFsYnhwR1R6c1k5akIxM3UxcElMVjlUSjU0b3VuZA0KS0RCVzAwVk9BelZvejZZZ2lxNG9Ia1M4TVR5Nlpxdy96ZkxCU0Iya3MxT09Ja2JieVFJREFRQUJNQTBHQ1NxR1NJYjNEUUVCQ3dVQQ0KQTRJQkFRQnNBZWdpRUZZU3p3RTZ6emF0ZlcwY0lodWV0VkViZ0xnOEpnSUE5aGVQcGIxd3o5Vlc1NUNveFVTSitKdHZRaWFLRS81eA0KMGlpWDE3S2o1WnAzaElqcG9lZWxUT3JxSDRCR0tPY2xGTjhLYXRkd0s1MmNEMTBKWUFYMExiOHM5YUw3UkJJYStIWnFJeWhIMnRwRA0KSWxmZ0Zwdi8xS0tQcWtaR1FWaWwrZGp5SVlNdzgvZzQ1YXBKbVArcDM5bnpYQk5vRWR1MXU1WDZobllFS1JYb1BXNW4yM2IvT0ZwWg0KRXZkZnVtaHIxaUhiSC9LKy9neEVURVlBcEJ4MmdoUXgyN3BUZlVuTkJxTUxuRmRvT3dYMFFXamdBY1VDd3FUZU5VcHY2TEJpMnMwNg0KV1plUVBhenRTZ0NZV21HZzUzL2tOYWFSWjMwQXg2Wk0yYmJVcWxpeCt5bWQ8L2RzOlg1MDlDZXJ0aWZpY2F0ZT48L2RzOlg1MDlEYXRhPjwvZHM6S2V5SW5mbz48L2RzOlNpZ25hdHVyZT48c2FtbDI6U3ViamVjdD48c2FtbDI6TmFtZUlEIEZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6MS4xOm5hbWVpZC1mb3JtYXQ6WDUwOVN1YmplY3ROYW1lIj5YWFhvbGl2aWVycEBjb252ZXJ0aWdvLmNvbTwvc2FtbDI6TmFtZUlEPjxzYW1sMjpTdWJqZWN0Q29uZmlybWF0aW9uIE1ldGhvZD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmNtOmJlYXJlciI+PHNhbWwyOlN1YmplY3RDb25maXJtYXRpb25EYXRhIE5vdE9uT3JBZnRlcj0iMjAyMC0xMS0xN1QxNDo1MTo0MS4wMDlaIiBSZWNpcGllbnQ9Imh0dHBzOi8vcGVkcm8uY29udmVydGlnby5uZXQvY29udmVydGlnby9hcGkvU0FNTCIvPjwvc2FtbDI6U3ViamVjdENvbmZpcm1hdGlvbj48L3NhbWwyOlN1YmplY3Q+PHNhbWwyOkNvbmRpdGlvbnMgTm90QmVmb3JlPSIyMDIwLTExLTE3VDE0OjQxOjQxLjAwOVoiIE5vdE9uT3JBZnRlcj0iMjAyMC0xMS0xN1QxNDo1MTo0MS4wMDlaIj48c2FtbDI6QXVkaWVuY2VSZXN0cmljdGlvbj48c2FtbDI6QXVkaWVuY2U+aHR0cHM6Ly9wZWRyby5jb252ZXJ0aWdvLm5ldC9jb252ZXJ0aWdvPC9zYW1sMjpBdWRpZW5jZT48L3NhbWwyOkF1ZGllbmNlUmVzdHJpY3Rpb24+PC9zYW1sMjpDb25kaXRpb25zPjxzYW1sMjpBdXRoblN0YXRlbWVudCBBdXRobkluc3RhbnQ9IjIwMjAtMTEtMTdUMTQ6NDU6NDcuMDAwWiIgU2Vzc2lvbkluZGV4PSJfYjZmNDgxZTFkNDYxYWIxMGZlNzhmMDJjNDNkYmJlYzciPjxzYW1sMjpBdXRobkNvbnRleHQ+PHNhbWwyOkF1dGhuQ29udGV4dENsYXNzUmVmPnVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphYzpjbGFzc2VzOnVuc3BlY2lmaWVkPC9zYW1sMjpBdXRobkNvbnRleHRDbGFzc1JlZj48L3NhbWwyOkF1dGhuQ29udGV4dD48L3NhbWwyOkF1dGhuU3RhdGVtZW50Pjwvc2FtbDI6QXNzZXJ0aW9uPjwvc2FtbDJwOlJlc3BvbnNlPg==
