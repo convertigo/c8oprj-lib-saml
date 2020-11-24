@@ -2,12 +2,13 @@ comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML S
 ↓PageEvent [mobile.components.UIPageEvent-1605966122141]: 
   ↓CallSequenceCheckSAMLToken [mobile.components.UIDynamicAction-1605966134173]: 
     beanData: '{"ionBean":"CallSequenceAction","requestable":"plain:lib_SAML.CheckSAMLToken"}'
-    ↓CallingApplicationURL [mobile.components.UIControlVariable-1606138927409]: 
+    ↓CallingApplicationURL2 [mobile.components.UIControlVariable-1606138927409]: 
       comment: new variable
+      isEnabled: false
       varValue: 
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:window.location.href
+          - MobileSmartSourceType: plain:
     ↓IfNotSAMLToken [mobile.components.UIDynamicIf-1606217385688]: 
       beanData: '{"ionBean":"IfElseAction","condition":"script:parent.out.SAML == ''NoToken''"}'
       ↓RedirectToIDP [mobile.components.UICustomAction-1605966339797]: 
@@ -17,7 +18,7 @@ comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML S
             - com.twinsoft.convertigo.beans.common.FormatedContent: 
               →: |
                 '		page.c8o.log.debug(''[MB] ''+ props.actionFunction +'': ''+ props.actionName);
-                		window.location.href = vars.url;
+                		window.open(vars.url, "SAML", "menubar=no,location=no,resizable=yes,scrollbars=no,status=no");
                 		resolve();
                 '
         ↓url [mobile.components.UIControlVariable-1605966392669]: 
@@ -33,3 +34,11 @@ comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML S
              "Property": "plain:SAMLNameID",
              "Value": "script:stack[''CallSequenceCheckSAMLToken''].out.authenticatedUserID"
             }'
+    ↓CallingApplicationURL [mobile.components.UIControlVariable-1606236084257]: 
+      comment: new variable
+      varValue: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+          - MobileSmartSourceType: |
+              script:window.location.href.substring(0, window.location.href.indexOf('/mobile')) + '../../../lib_SAML/closeWindow.html'
+              
