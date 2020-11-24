@@ -2,8 +2,14 @@ comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML S
 ↓PageEvent [mobile.components.UIPageEvent-1605966122141]: 
   ↓CallSequenceCheckSAMLToken [mobile.components.UIDynamicAction-1605966134173]: 
     beanData: '{"ionBean":"CallSequenceAction","requestable":"plain:lib_SAML.CheckSAMLToken"}'
-    ↓IfNotSAMLToken [mobile.components.UIDynamicAction-1605966161101]: 
-      beanData: '{"ionBean":"IfAction","condition":"script:parent.out.SAML == ''NoToken''"}'
+    ↓CallingApplicationURL [mobile.components.UIControlVariable-1606138927409]: 
+      comment: new variable
+      varValue: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+          - MobileSmartSourceType: script:window.location.href
+    ↓IfNotSAMLToken [mobile.components.UIDynamicIf-1606217385688]: 
+      beanData: '{"ionBean":"IfElseAction","condition":"script:parent.out.SAML == ''NoToken''"}'
       ↓RedirectToIDP [mobile.components.UICustomAction-1605966339797]: 
         actionValue: 
           - xmlizable: 
@@ -19,9 +25,11 @@ comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML S
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
               - MobileSmartSourceType: script:stack['CallSequenceCheckSAMLToken'].out.SAMLIdpServiceURL
-    ↓CallingApplicationURL [mobile.components.UIControlVariable-1606138927409]: 
-      comment: new variable
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:window.location.href
+      ↓Else_Handler [mobile.components.UIActionElseEvent-1606217449481]: 
+        ↓SetGlobal [mobile.components.UIDynamicAction-1606217462441]: 
+          beanData: |
+            '{
+             "ionBean": "SetGlobalAction",
+             "Property": "plain:SAMLNameID",
+             "Value": "script:stack[''CallSequenceCheckSAMLToken''].out.authenticatedUserID"
+            }'

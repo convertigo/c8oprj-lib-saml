@@ -1,6 +1,7 @@
 path: /SAML
 ↓PostOperation [rest.PostOperation]: 
   targetRequestable: lib_SAML.Authentiticate
+  terminateSession: false
   ↓SAMLResponse [rest.FormParameter-1605537506625]: 
     mappedVariableName: SAMLResponse
   ↓RelayState [rest.FormParameter-1606116320211]: 

@@ -16,6 +16,7 @@ comment: Checks if the session is already SAML authenticated and if not computes
     ↓Element [steps.XMLElementStep-1605959935828]: 
       nodeName: SAML
       nodeText: ok
+    ↓Get_authenticated_user [steps.GetAuthenticatedUserStep-1606217314934]: 
   ↓jElse [steps.ElseStep-1605959896254]: 
     ↓Element [steps.XMLElementStep-1605960081289]: 
       nodeName: SAML

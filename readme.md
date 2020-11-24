@@ -56,6 +56,8 @@ When a user access your application, he will be redirected the SSO IDP. The IDP 
 
 To enable SSO in your app, you just have to insert the __SAMLLogin__ shared component in the first page of your app. This will automatically trigger the _AuthnRequest_ Flow and redirect to the IDP if not already Authenticated.
 
+Once authenticated, the global variable _SAMLNameID_ will hold the authenticated SAML attribute _NameID_. Be sure to configure your IDP provider to set a proper information for _NameID_ in the attribute mappings. 
+
 ## Sample Application
 
 You will find in this project a sample application using the __SAMLLogin__ shared component. Be sure to configure your IDP and the Convertigo symbols accordingly to run the app.

@@ -99,3 +99,20 @@ title: First page
                 
                 
                 
+    ↓Heading [mobile.components.UIDynamicTag-1606221159616]: 
+      beanData: '{"ionBean":"Heading"}'
+      tagName: h1
+      ↓Text [mobile.components.UIText-1606221169576]: 
+        i18n: false
+        textValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: plain:You are authenticated as
+    ↓Heading1 [mobile.components.UIDynamicTag-1606221192469]: 
+      beanData: '{"ionBean":"Heading"}'
+      tagName: h4
+      ↓Text [mobile.components.UIText-1606221192472]: 
+        textValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:router.sharedObject.SAMLNameID
