@@ -46,9 +46,18 @@ lib_SAML.IdpSSOServiceURL | The IDP Service URL. This information is available o
 lib_SAML.lib_SAML.SPEntityID | You application's Entity ID. The same you configured in your SSO Idp. for example : __https://&lt;mysite&gt;.convertigo.net/convertigo__ 
 
 
-## Flows
+## Flow
 
 ### SAML 2.0 Classic flow (Authentication Request Protocol).
 
-When a user access your application, he will be redirected the SSO IDP. The IDP will present the user a Sign In dialog if he is not already signed with it. When the sign in is complete, the IDP will redirect the user to your application.
+When a user access your application, he will be redirected the SSO IDP. The IDP will present the user a Sign In dialog if he is not already signed with it. When the sign in is complete, the IDP will redirect the user to your application. To do this the SAML Token is stored in the Convertigo Sesson. 
+
+## Shared Component
+
+To enable SSO in your app, you just have to insert the __SAMLLogin__ shared component in the first page of your app. This will automatically trigger the _AuthnRequest_ Flow and redirect to the IDP if not already Authenticated.
+
+## Sample Application
+
+You will find in this project a sample application using the __SAMLLogin__ shared component. Be sure to configure your IDP and the Convertigo symbols accordingly to run the app.
+
 

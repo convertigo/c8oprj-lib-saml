@@ -25,6 +25,7 @@ componentScriptContent:
         
 tplProjectName: mobilebuilder_tpl_7_8_0
 ↓Menu [mobile.components.UIDynamicMenu-1500890597895]: 🗏 mobileMenus/Menu.yaml
+↓SAMLLogin [mobile.components.UISharedComponent-1606215730612]: 🗏 mobileSharedComponents/SAMLLogin.yaml
 ↓Page [mobile.components.PageComponent-1500538678074]: 🗏 mobilePages/Page.yaml
 ↓Theme [mobile.components.UITheme-1491635018260]: 
   comment: Global color themes can be customized here
