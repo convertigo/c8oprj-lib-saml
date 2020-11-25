@@ -1,4 +1,4 @@
-comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML SSO
+comment: The SAML AuthComponent. insert it anywhere in your page to enable SAML SSO
 ↓PageEvent [mobile.components.UIPageEvent-1605966122141]: 
   ↓CallSequenceCheckSAMLToken [mobile.components.UIDynamicAction-1605966134173]: 
     beanData: '{"ionBean":"CallSequenceAction","requestable":"plain:lib_SAML.CheckSAMLToken"}'
