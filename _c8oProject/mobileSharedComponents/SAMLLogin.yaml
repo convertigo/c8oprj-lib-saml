@@ -78,7 +78,7 @@ comment: The SAML AuthComponent. insert it anywhere in you page to enable SAML S
              "Value": "script:stack[''CallSequenceCheckSAMLToken''].out.authenticatedUserID"
             }'
     ↓CallingApplicationURL [mobile.components.UIControlVariable-1606236084257]: 
-      comment: new variable
+      comment: Get the lib_SAML project's path
       varValue: 
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
