@@ -2,7 +2,7 @@
 ↓lib_SAML [core.Project]: 
   comment: Convertigo Mobile builder Project
   corsOrigin: =Origin
-  version: 1.0
+  version: 7.7.0
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
