@@ -1,12 +1,13 @@
-↑convertigo: 7.7.0.m006
+↑convertigo: 7.9.0.m006
 ↓lib_SAML [core.Project]: 
   comment: Convertigo Mobile builder Project
   corsOrigin: =Origin
-  version: 7.7.0
+  version: 1.0
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
   ↓GenerateAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateAuthnRequest.yaml
+  ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
   ↓MobileApplication [core.MobileApplication]: 
     comment: Describes the mobile application global properties
     splashRemoveMode: beforeUpdate
@@ -15,4 +16,3 @@
     ↓iOS [mobileplatforms.IOs]: 
       comment: iOS platform
     ↓Application [mobile.components.ApplicationComponent]: 🗏 mobileApplication.yaml
-  ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
