@@ -8,13 +8,3 @@
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
   ↓GenerateAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateAuthnRequest.yaml
   ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
-  ↓Project_reference [references.ProjectSchemaReference]: 
-    projectName: mobilebuilder_tpl_7_9_0=https://github.com/convertigo/c8oprj-mobilebuilder-tpl/archive/mobilebuilder_tpl_7_9_0.zip
-  ↓MobileApplication [core.MobileApplication]: 
-    comment: Describes the mobile application global properties
-    splashRemoveMode: beforeUpdate
-    ↓Android [mobileplatforms.Android]: 
-      comment: Android platform
-    ↓iOS [mobileplatforms.IOs]: 
-      comment: iOS platform
-    ↓Application [mobile.components.ApplicationComponent]: 🗏 mobileApplication.yaml
