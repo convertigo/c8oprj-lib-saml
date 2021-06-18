@@ -58,6 +58,7 @@ comment: Utility to compute a AuthnRequest
     elt.setTextContent(elt.getTextContent().replaceAll("\r\n", ""));
     elt = doc.getElementsByTagName("X509Certificate").item(0);
     elt.setTextContent(elt.getTextContent().replaceAll("\r\n", ""));
+    doc.getDocumentElement().insertBefore(doc.getElementsByTagName("Signature").item(0), doc.getElementsByTagName("saml:Issuer").item(0).getNextSibling());
     var /*TransformerFactory*/ tf = javax.xml.transform.TransformerFactory.newInstance();
     var /*Transformer*/ trans = tf.newTransformer();
     var /*StringWriter*/ sw = new java.io.StringWriter();
