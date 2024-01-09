@@ -16,6 +16,7 @@ comment: This sequence is called by th IDP with a SAMLResponse Token.
     '/**
      * This code verifies the SAML assertion based on XMLsecurity API
      */
+    org.apache.xml.security.Init.init();
     
     // Assume not Valid
     bValid = false;
@@ -38,25 +39,19 @@ comment: This sequence is called by th IDP with a SAMLResponse Token.
     // We will use the Convertigo XPath API..
     twsApi = new com.twinsoft.convertigo.engine.util.TwsCachedXPathAPI();
     
-    org.apache.xml.security.Init.init();
     
     //Find Signature element.
-    nl = dom.getElementsByTagNameNS(
-    	org.apache.xml.security.utils.Constants.SignatureSpecNS,
-    	"Signature"
-    );
+    nl = dom.getElementsByTagNameNS(org.apache.xml.security.utils.Constants.SignatureSpecNS, "Signature");
     
     /**
      * Verify Signature using XMLSecurity APIs
      */
     if (nl.getLength() != 0) {
     	dom.getDocumentElement().setIdAttribute("ID", true);
-    	var signature = new org.apache.xml.security.signature.XMLSignature(nl.item(0), "");
-    	var ki = signature.getKeyInfo();
-    	var key = ki.getPublicKey();
-    	bValid = signature.checkSignatureValue(key);
-    
-    
+    	xmlSignature = new org.apache.xml.security.signature.XMLSignature(nl.item(0), "");
+    	
+    	//Validate the XMLSignature.
+    	bValid = xmlSignature.checkSignatureValue(xmlSignature.getKeyInfo().getPublicKey());
     	if (bValid) {
     		log.debug("[SAML] response assertion is valid !");
     		
@@ -86,7 +81,6 @@ comment: This sequence is called by th IDP with a SAMLResponse Token.
     } else {
     	log.error("[SAML] No Signature Node found !");
     }
-    
     '
 ↓jElement [steps.ElementStep-1605622044150]: 
   expression: bValid

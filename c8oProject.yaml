@@ -7,4 +7,5 @@
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
   ↓GenerateAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateAuthnRequest.yaml
+  ↓GenerateSignedAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateSignedAuthnRequest.yaml
   ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
