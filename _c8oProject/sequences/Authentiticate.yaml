@@ -39,6 +39,11 @@ comment: This sequence is called by th IDP with a SAMLResponse Token.
     // We will use the Convertigo XPath API..
     twsApi = new com.twinsoft.convertigo.engine.util.TwsCachedXPathAPI();
     
+    var vla = dom.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");
+    if (vla.getLength() != 0) {
+    		log.debug("[SAML] set Assertion ID attribute");
+    		vla.item(0).setIdAttribute("ID", true);
+    }
     
     //Find Signature element.
     nl = dom.getElementsByTagNameNS(org.apache.xml.security.utils.Constants.SignatureSpecNS, "Signature");
