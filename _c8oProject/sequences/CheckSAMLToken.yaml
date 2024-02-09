@@ -17,6 +17,25 @@ comment: Checks if the session is already SAML authenticated and if not computes
       nodeName: SAML
       nodeText: ok
     ↓Get_authenticated_user [steps.GetAuthenticatedUserStep-1606217314934]: 
+    ↓attributes [steps.XMLComplexStep-1707471595991]: 
+      nodeName: attributes
+      ↓type [steps.XMLAttributeStep-1707472202835]: 
+        nodeName: type
+        nodeText: object
+      ↓attributes [steps.SimpleIteratorStep-1707471653709]: 
+        expression: |
+          var twsApi = new com.twinsoft.convertigo.engine.util.TwsCachedXPathAPI();
+          var dom = context.httpSession.getAttribute("SAMLToken");
+          twsApi.selectNodeList(dom, "//Attribute");
+        ↓attribute [steps.ElementStep-1707472044335]: 
+          expression: item.getTextContent()
+          nodeName: attribute
+          ↓type [steps.XMLAttributeStep-1707472261187]: 
+            nodeName: type
+            nodeText: string
+          ↓originalKeyName [steps.AttributeStep-1707471989755]: 
+            expression: item.getAttribute("Name")
+            nodeName: originalKeyName
   ↓jElse [steps.ElseStep-1605959896254]: 
     ↓Element [steps.XMLElementStep-1605960081289]: 
       nodeName: SAML
