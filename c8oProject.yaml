@@ -1,18 +1,18 @@
 ↑convertigo: 8.0.0.m006
 ↓lib_SAML [core.Project]: 
   comment: |
-    '# This is the Back end part of the Convertigo SAMLv2 Connector
+    '#This is the Back end part of the Convertigo SAMLv2 Connector
     
     The Connector works with the front-end part available here :  https://github.com/convertigo/c8oprj-lib-saml-ui-ngx
     
     ## Symbols
     
-    |Name           			| Usage 
-    ---------------------------------
-    |lib_SAML.cert				| The certificate use to sign AuthnReqests in .cer format (Copy / paste the content of your .cer file to the value of the symbol)
-    |lib_SAML.key.secret 		| The private key used to sign AuthN request associate with the certificate in .key format (Copy / paste the content of your .key ||file to the value of the symbol)
-    |lib_SAML.IdpSSOServiceURL  | The Idp''s Service URL 
-    |lib_SAML.SPEntityID  		| The Service ID configured in the SAML IDP.
+    |Name           				| Usage 
+    ----------------------------|------
+    |lib_SAML.cert				| The certificate use to sign AuthnReqests in .cer format (Copy / paste the content of your .cer file to the value of the symbol) |
+    |lib_SAML.key.secret 		| The private key used to sign AuthN request associate with the certificate in .key format (Copy / paste the content of your .key ||file to the value of the symbol) |
+    |lib_SAML.IdpSSOServiceURL  | The Idp''s Service URL  |
+    |lib_SAML.SPEntityID  		| The Service ID configured in the SAML IDP. |
     
     
     '
