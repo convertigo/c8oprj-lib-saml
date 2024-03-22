@@ -24,7 +24,7 @@ Basic usage need to configure only 2 symbols, the **lib_SAML.IdpSSOServiceURL** 
 If you need to Sign your SAML AuthnRequest , you will have to provide a certificate with a private key in defined symbols. To generate your certificate and private key you can use openssl commands :
 
 ```
-openssl genrsa  -out vertificate.key 2048   
+openssl genrsa  -out certificate.key 2048   
 openssl req     -key certificate.key -new -x509 -days 3000 -out certificate.crt
 ```
 This will ask you some questions :
