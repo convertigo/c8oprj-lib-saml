@@ -1,9 +1,7 @@
 ↑convertigo: 8.0.0.m006
 ↓lib_SAML [core.Project]: 
   comment: |
-    '#This is the Back end part of the Convertigo SAMLv2 Connector
-    
-    The Connector works with the front-end part available here :  https://github.com/convertigo/c8oprj-lib-saml-ui-ngx
+    'This is the Back end part of the Convertigo SAMLv2 Connector. The Connector works with the front-end part available here :  https://github.com/convertigo/c8oprj-lib-saml-ui-ngx
     
     ## Symbols
     
@@ -14,7 +12,37 @@
     |lib_SAML.IdpSSOServiceURL  | The Idp''s Service URL  |
     |lib_SAML.SPEntityID  		| The Service ID configured in the SAML IDP. |
     
+    ## Configuring
     
+    Basic usage need to configure only 2 symbols, the **lib_SAML.IdpSSOServiceURL** and the **lib_SAML.SPEntityID**
+    
+    
+    ## Signing AuthnRequest
+    
+    If you need to Sign your SAML AuthnRequest , you will have to provide a certificate with a private key in defined symbols. To generate your certificate and private key you can use openssl commands :
+    
+    ```
+    openssl genrsa  -out vertificate.key 2048   
+    openssl req     -key certificate.key -new -x509 -days 3000 -out certificate.crt
+    ```
+    This will ask you some questions :
+    
+    
+    ```
+    Country Name (2 letter code) [AU]:
+    State or Province Name (full name) [Some-State]:
+    Locality Name (eg, city) []:
+    Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+    Organizational Unit Name (eg, section) []:
+    Common Name (e.g. server FQDN or YOUR name) []:
+    Email Address []:
+    ```
+     
+    Be sure to enter for ''Common name'' the same entity ID you configured in your IDP''s SAML configuration
+    
+    This will create for you certificate.key and a certificate.cer files. You can open these file with a text editor and copy/paste contents to the **lib_SAML.cert** symbol value (For the content of certificate.cer) & the **lib_SAML.key.secret** symbol value (for the content of the certificate.key)
+    
+    Not configuring the **lib_SAML.cert** and **lib_SAML.key.secret** symbols will result in issuing unsigned AuthnRequests
     '
   corsOrigin: =Origin
   version: 3.0.9
