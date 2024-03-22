@@ -45,7 +45,7 @@
     Not configuring the **lib_SAML.cert** and **lib_SAML.key.secret** symbols will result in issuing unsigned AuthnRequests
     '
   corsOrigin: =Origin
-  version: 3.0.9
+  version: 3.1.0
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
