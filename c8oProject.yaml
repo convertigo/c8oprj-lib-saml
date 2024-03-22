@@ -2,10 +2,9 @@
 ↓lib_SAML [core.Project]: 
   comment: Convertigo Mobile builder Project
   corsOrigin: =Origin
-  version: 3.0.2
+  version: 3.0.9
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓Authentiticate [sequences.GenericSequence]: 🗏 sequences/Authentiticate.yaml
   ↓CheckSAMLToken [sequences.GenericSequence]: 🗏 sequences/CheckSAMLToken.yaml
   ↓GenerateAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateAuthnRequest.yaml
-  ↓GenerateSignedAuthnRequest [sequences.GenericSequence]: 🗏 sequences/GenerateSignedAuthnRequest.yaml
   ↓UrlMapper [core.UrlMapper]: 🗏 urlMapper.yaml
