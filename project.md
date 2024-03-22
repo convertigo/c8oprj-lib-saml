@@ -191,7 +191,7 @@ comment
 
 ### ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/rest/images/pathmapping_color_16x16.png?raw=true "PathMapping") /SAML
 
-
+The POST SAML Endpoint
 
 <details><summary><span style="color:DarkGoldenRod"><i>Operations</i></span></summary><blockquote><p>
 
@@ -216,7 +216,7 @@ comment
 <img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/rest/images/formparameter_color_16x16.png?raw=true "  alt="FormParameter" >&nbsp;RelayState
 </td>
 <td>
-
+The SAML relaystate Value
 </td>
 </tr>
 <tr>
@@ -224,7 +224,7 @@ comment
 <img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/rest/images/formparameter_color_16x16.png?raw=true "  alt="FormParameter" >&nbsp;SAMLResponse
 </td>
 <td>
-
+The SAML Token
 </td>
 </tr>
 </table>

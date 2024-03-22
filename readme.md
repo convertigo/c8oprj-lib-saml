@@ -90,6 +90,8 @@ For more technical informations : [documentation](./project.md)
 
 #### /SAML
 
+The POST SAML Endpoint
+
 ##### Operations
 
 ###### PostOperation
@@ -101,10 +103,10 @@ For more technical informations : [documentation](./project.md)
 <th>name</th><th>comment</th>
 </tr>
 <tr>
-<td>RelayState</td><td></td>
+<td>RelayState</td><td>The SAML relaystate Value</td>
 </tr>
 <tr>
-<td>SAMLResponse</td><td></td>
+<td>SAMLResponse</td><td>The SAML Token</td>
 </tr>
 </table>
 

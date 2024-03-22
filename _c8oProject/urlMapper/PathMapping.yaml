@@ -1,10 +1,13 @@
+comment: The POST SAML Endpoint
 path: /SAML
 ↓PostOperation [rest.PostOperation]: 
   targetRequestable: lib_SAML.Authentiticate
   terminateSession: false
   ↓SAMLResponse [rest.FormParameter-1605537506625]: 
+    comment: The SAML Token
     mappedVariableName: SAMLResponse
   ↓RelayState [rest.FormParameter-1606116320211]: 
+    comment: The SAML relaystate Value
     mappedVariableName: RelayState
   ↓OperationResponse [rest.OperationResponse]: 
     statusCode: 302
