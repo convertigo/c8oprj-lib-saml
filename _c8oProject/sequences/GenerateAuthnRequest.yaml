@@ -50,7 +50,7 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
             "Version=\"2.0\" "+
             "IssueInstant=\"" + new Date().toISOString() + "\" "+
             "AssertionConsumerServiceIndex=\"0\" "+
-            "AttributeConsumingServiceIndex=\"0\"> "+
+            "AttributeConsumingServiceIndex=\"0\">"+
             "<saml:Issuer>" + IDPEntityID + "</saml:Issuer>" +
             "<samlp:NameIDPolicy " + 
         	      "AllowCreate=\"true\" "+
@@ -73,33 +73,31 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
         log.debug("key: " + key);
         var /*PKCS8EncodedKeySpec*/ keySpac = new java.security.spec.PKCS8EncodedKeySpec(java.util.Base64.getDecoder().decode(key));
         var /*RSAPrivateKey*/ priv = /*(RSAPrivateKey)*/ kf.generatePrivate(keySpac);
+        doc.getDocumentElement().setIdAttribute("ID", true);
         var /*DOMSignContext*/ dsc = new javax.xml.crypto.dsig.dom.DOMSignContext(priv, doc.getDocumentElement());
         var /*XMLSignatureFactory*/ fac = javax.xml.crypto.dsig.XMLSignatureFactory.getInstance("DOM");
-        var /*Reference*/ ref = fac.newReference
-                ("", fac.newDigestMethod(javax.xml.crypto.dsig.DigestMethod.SHA256, null),
-                 java.util.List.of
-                  (fac[''newTransform(java.lang.String,javax.xml.crypto.dsig.spec.TransformParameterSpec)'']
-                    (javax.xml.crypto.dsig.Transform.ENVELOPED, /*(TransformParameterSpec)*/ null),
-                    fac[''newCanonicalizationMethod(java.lang.String,javax.xml.crypto.dsig.spec.C14NMethodParameterSpec)'']("http://www.w3.org/2001/10/xml-exc-c14n#", /*(C14NMethodParameterSpec)*/ null)),
-                 null, null);
+        var /*Reference*/ ref = fac.newReference("#" + ID, fac.newDigestMethod(javax.xml.crypto.dsig.DigestMethod.SHA256, null),
+        		 java.util.List.of
+        		  (fac[''newTransform(java.lang.String,javax.xml.crypto.dsig.spec.TransformParameterSpec)'']
+        		    (javax.xml.crypto.dsig.Transform.ENVELOPED, /*(TransformParameterSpec)*/ null)),
+        		 null, null);
         
-        var /*SignedInfo*/ si = fac.newSignedInfo
-                (fac[''newCanonicalizationMethod(java.lang.String,javax.xml.crypto.dsig.spec.C14NMethodParameterSpec)'']
+        var /*SignedInfo*/ si = fac.newSignedInfo(fac[''newCanonicalizationMethod(java.lang.String,javax.xml.crypto.dsig.spec.C14NMethodParameterSpec)'']
                  (javax.xml.crypto.dsig.CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS,
                   /*(C14NMethodParameterSpec)*/ null),
-                 fac.newSignatureMethod("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", null),
+                 fac.newSignatureMethod(javax.xml.crypto.dsig.SignatureMethod.RSA_SHA256, null),
                  java.util.List.of(ref));
         var /*KeyInfoFactory*/ kif = fac.getKeyInfoFactory();
         var /*X509Data*/ kv = kif.newX509Data(java.util.List.of(cer));
         var /*KeyInfo*/ ki = kif.newKeyInfo(java.util.List.of(kv));
         var /*XMLSignature*/ signature = fac.newXMLSignature(si, ki);
+        
         signature.sign(dsc);
         var elt = doc.getElementsByTagName("SignatureValue").item(0);
         elt.setTextContent(elt.getTextContent().replaceAll("\r\n", ""));
         elt = doc.getElementsByTagName("X509Certificate").item(0);
         elt.setTextContent(elt.getTextContent().replaceAll("\r\n", ""));
         doc.getDocumentElement().insertBefore(doc.getElementsByTagName("Signature").item(0), doc.getElementsByTagName("saml:Issuer").item(0).getNextSibling());
-        doc.getElementsByTagName("Reference").item(0).setAttribute("URI", "#" + ID);
         var /*TransformerFactory*/ tf = javax.xml.transform.TransformerFactory.newInstance();
         var /*Transformer*/ trans = tf.newTransformer();
         var /*StringWriter*/ sw = new java.io.StringWriter();
@@ -117,10 +115,7 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
         deflaterStream.close();
         deflater.finish();
         
-        sAuthn 	= encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;
-        
-        
-        '
+        sAuthn 	= encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;'
 ↓jElement [steps.ElementStep-1605977616787]: 
   expression: sAuthn
   nodeName: AuthnRequest
