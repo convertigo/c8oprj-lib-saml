@@ -1,9 +1,22 @@
-comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.cert and lib_SAML.key.secret are defined.
+comment: Utility to compute an AuthnRequest. It can be signed when symbols lib_SAML.cert and lib_SAML.key.secret are defined. Certificate and private key values accept PEM or Base64, multiline or single-line.
 ↓GetSymbols [steps.SimpleStep-1711100530658]: 
   expression: |
-    var cert = '${lib_SAML.cert=}';
-    var key = '${lib_SAML.key.secret=}';
-    var nameIDFormat = '${lib_SAML.NameIDFormat=urn:oasis:names:tc:SAML:2.0:nameid-format:transient}';
+    'function normalizePemValue(value) {
+        if (value == null) {
+            return "";
+        }
+        return String(value)
+            .replace(/&#(?:10|13|x0*A|x0*D);/gi, "")
+            .replace(/<br\s*\/?>/gi, "")
+            .replace(/\\r\\n|\\n|\\r/g, "")
+            .replace(/-----BEGIN [^-]+-----/gi, "")
+            .replace(/-----END [^-]+-----/gi, "")
+            .replace(/\s/g, "");
+    }
+    var symbols = Packages.com.twinsoft.convertigo.engine.Engine.theApp.databaseObjectsManager;
+    var cert = normalizePemValue(symbols.symbolsGetValue("lib_SAML.cert"));
+    var key = normalizePemValue(symbols.symbolsGetValue("lib_SAML.key.secret"));
+    var nameIDFormat = ''${lib_SAML.NameIDFormat=urn:oasis:names:tc:SAML:2.0:nameid-format:transient}'';'
 ↓jIfThenElse [steps.IfThenElseStep-1711100553741]: 
   condition: cert == '' || key == ''
   ↓jThen [steps.ThenStep-1711100553743]: 
@@ -65,14 +78,11 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
         var /*Document*/ doc = dbf.newDocumentBuilder().parse(new java.io.ByteArrayInputStream(new java.lang.String(XML).getBytes("UTF-8")));
         log.debug("[SAML] response assertion is : \n"  + doc);
         var /*CertificateFactory*/ fact = java.security.cert.CertificateFactory.getInstance("X.509");
-        cert = cert.replace(/(?:.*-+BEGIN CERTIFICATE-+)|(?:-+END CERTIFICATE-+.*)|\s/g, "");
-        log.debug("cert: " + cert);
         cert = java.util.Base64.getDecoder().decode(cert);
         var /*X509Certificate*/ cer = /*(X509Certificate)*/ fact.generateCertificate(new java.io.ByteArrayInputStream(cert));
         var /*KeyFactory*/ kf = java.security.KeyFactory.getInstance("RSA");
-        key = key.replace(/(?:.*-+BEGIN PRIVATE KEY-+)|(?:-+END PRIVATE KEY-+.*)|\s/g, "");
-        log.debug("key: " + key);
-        var /*PKCS8EncodedKeySpec*/ keySpac = new java.security.spec.PKCS8EncodedKeySpec(java.util.Base64.getDecoder().decode(key));
+        key = java.util.Base64.getDecoder().decode(key);
+        var /*PKCS8EncodedKeySpec*/ keySpac = new java.security.spec.PKCS8EncodedKeySpec(key);
         var /*RSAPrivateKey*/ priv = /*(RSAPrivateKey)*/ kf.generatePrivate(keySpac);
         doc.getDocumentElement().setIdAttribute("ID", true);
         var /*DOMSignContext*/ dsc = new javax.xml.crypto.dsig.dom.DOMSignContext(priv, doc.getDocumentElement());

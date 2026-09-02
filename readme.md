@@ -9,8 +9,8 @@ This is the Back end part of the Convertigo SAMLv2 Connector. The Connector work
 
 |Name           				|  Mandatory |Usage 
 ----------------------------|------------|---------
-|lib_SAML.cert				| No | The certificate use to sign AuthN Request in .cer format (Copy / paste the content of your .cer file to the value of the symbol) |
-|lib_SAML.key.secret 		| No | The private key used to sign AuthN request associate with the certificate in .key format (Copy / paste the content of your .key ||file to the value of the symbol) |
+|lib_SAML.cert				| No | The X.509 certificate used to sign AuthnRequests. Accepts PEM or Base64, multiline or single-line, with actual, escaped, or XML-encoded line breaks. |
+|lib_SAML.key.secret 		| No | The matching PKCS#8 RSA private key. Accepts PEM or Base64, multiline or single-line, with actual, escaped, or XML-encoded line breaks. |
 |lib_SAML.IdpSSOServiceURL  | Yes | The Idp's Service URL  |
 |lib_SAML.SPEntityID  		| Yes | The Service ID configured in the SAML IDP. |
 |lib_SAML.NameIDFormat      | No | The SAML NameIDPolicy format requested from the IDP. Defaults to `urn:oasis:names:tc:SAML:2.0:nameid-format:transient`. |
@@ -28,7 +28,7 @@ If the IDP requires another NameIDPolicy format, configure the optional
 If you need to Sign your SAML AuthnRequest , you will have to provide a certificate with a private key in defined symbols. To generate your certificate and private key you can use openssl commands :
 
 ```
-openssl genrsa  -out certificate.key 2048   
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out certificate.key
 openssl req     -key certificate.key -new -x509 -days 3000 -out certificate.crt
 ```
 This will ask you some questions :
@@ -46,7 +46,13 @@ Email Address []:
  
 Be sure to enter for 'Common name' the same entity ID you configured in your IDP's SAML configuration
 
-This will create for you certificate.key and a certificate.cer files. You can open these file with a text editor and copy/paste contents to the **lib_SAML.cert** symbol value (For the content of certificate.cer) & the **lib_SAML.key.secret** symbol value (for the content of the certificate.key)
+This creates `certificate.key` and `certificate.crt`. Configure their contents in
+the **lib_SAML.cert** and **lib_SAML.key.secret** symbols.
+
+Both symbols accept a complete PEM value with `BEGIN`/`END` markers or the Base64
+payload alone. Values may be multiline or single-line. Actual line breaks,
+literal `\n` or `\r\n` sequences, and XML newline entities such as `&#10;` are
+normalized automatically.
 
 Not configuring the **lib_SAML.cert** and **lib_SAML.key.secret** symbols will result in issuing unsigned AuthnRequests
 
@@ -113,5 +119,3 @@ The POST SAML Endpoint
 <td>SAMLResponse</td><td>The SAML Token</td>
 </tr>
 </table>
-
-
