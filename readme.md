@@ -13,10 +13,14 @@ This is the Back end part of the Convertigo SAMLv2 Connector. The Connector work
 |lib_SAML.key.secret 		| No | The private key used to sign AuthN request associate with the certificate in .key format (Copy / paste the content of your .key ||file to the value of the symbol) |
 |lib_SAML.IdpSSOServiceURL  | Yes | The Idp's Service URL  |
 |lib_SAML.SPEntityID  		| Yes | The Service ID configured in the SAML IDP. |
+|lib_SAML.NameIDFormat      | No | The SAML NameIDPolicy format requested from the IDP. Defaults to `urn:oasis:names:tc:SAML:2.0:nameid-format:transient`. |
 
 ## Configuring
 
 Basic usage need to configure only 2 symbols, the **lib_SAML.IdpSSOServiceURL** and the **lib_SAML.SPEntityID**
+
+If the IDP requires another NameIDPolicy format, configure the optional
+**lib_SAML.NameIDFormat** symbol with the expected SAML URI.
 
 
 ## Signing AuthnRequest
@@ -109,6 +113,5 @@ The POST SAML Endpoint
 <td>SAMLResponse</td><td>The SAML Token</td>
 </tr>
 </table>
-
 
 

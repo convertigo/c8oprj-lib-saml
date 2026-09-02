@@ -3,6 +3,7 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
   expression: |
     var cert = '${lib_SAML.cert=}';
     var key = '${lib_SAML.key.secret=}';
+    var nameIDFormat = '${lib_SAML.NameIDFormat=urn:oasis:names:tc:SAML:2.0:nameid-format:transient}';
 ↓jIfThenElse [steps.IfThenElseStep-1711100553741]: 
   condition: cert == '' || key == ''
   ↓jThen [steps.ThenStep-1711100553743]: 
@@ -21,8 +22,8 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
             "AttributeConsumingServiceIndex=\"0\"> "+
             "<saml:Issuer>" + IDPEntityID + "</saml:Issuer>" +
             "<samlp:NameIDPolicy " + 
-        	      "AllowCreate=\"true\" "+
-        	      "Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:transient\"/>" +
+                  "AllowCreate=\"true\" "+
+                  "Format=\"" + nameIDFormat + "\"/>" +
         "</samlp:AuthnRequest>";
         
         xmlBytes  = new java.lang.String(XML).getBytes("UTF-8");
@@ -34,7 +35,7 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
         deflaterStream.close();
         deflater.finish();
         
-        sAuthn 	= encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;
+        sAuthn     = encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;
         
         
         '
@@ -53,8 +54,8 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
             "AttributeConsumingServiceIndex=\"0\">"+
             "<saml:Issuer>" + IDPEntityID + "</saml:Issuer>" +
             "<samlp:NameIDPolicy " + 
-        	      "AllowCreate=\"true\" "+
-        	      "Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:transient\"/>" +
+                  "AllowCreate=\"true\" "+
+                  "Format=\"" + nameIDFormat + "\"/>" +
         "</samlp:AuthnRequest>";
         
         log.debug(XML);
@@ -77,10 +78,10 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
         var /*DOMSignContext*/ dsc = new javax.xml.crypto.dsig.dom.DOMSignContext(priv, doc.getDocumentElement());
         var /*XMLSignatureFactory*/ fac = javax.xml.crypto.dsig.XMLSignatureFactory.getInstance("DOM");
         var /*Reference*/ ref = fac.newReference("#" + ID, fac.newDigestMethod(javax.xml.crypto.dsig.DigestMethod.SHA256, null),
-        		 java.util.List.of
-        		  (fac[''newTransform(java.lang.String,javax.xml.crypto.dsig.spec.TransformParameterSpec)'']
-        		    (javax.xml.crypto.dsig.Transform.ENVELOPED, /*(TransformParameterSpec)*/ null)),
-        		 null, null);
+                 java.util.List.of
+                  (fac[''newTransform(java.lang.String,javax.xml.crypto.dsig.spec.TransformParameterSpec)'']
+                    (javax.xml.crypto.dsig.Transform.ENVELOPED, /*(TransformParameterSpec)*/ null)),
+                 null, null);
         
         var /*SignedInfo*/ si = fac.newSignedInfo(fac[''newCanonicalizationMethod(java.lang.String,javax.xml.crypto.dsig.spec.C14NMethodParameterSpec)'']
                  (javax.xml.crypto.dsig.CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS,
@@ -115,7 +116,7 @@ comment: Utility to compute a AuthnRequest. Can be signed if symbols lib_SAML.ce
         deflaterStream.close();
         deflater.finish();
         
-        sAuthn 	= encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;'
+        sAuthn     = encodeURIComponent(org.apache.commons.codec.binary.Base64.encodeBase64String(bytesOut.toByteArray()));;'
 ↓jElement [steps.ElementStep-1605977616787]: 
   expression: sAuthn
   nodeName: AuthnRequest
