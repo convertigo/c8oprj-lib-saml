@@ -69,7 +69,13 @@ comment: This sequence is called by th IDP with a SAMLResponse Token.
     			UserID = "saml2:" + ClaimNameNode.getTextContent();
     			
     		// Save our Token in the session so we can check if we are Already Authenticated
-    		context.httpServletRequest.getSession().setAttribute("SAMLToken", dom);
+            // Store XML text so the token survives external session stores.
+            var tokenWriter = new java.io.StringWriter();
+            var tokenTransformer = javax.xml.transform.TransformerFactory.newInstance().newTransformer();
+            tokenTransformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "no");
+            tokenTransformer.transform(new javax.xml.transform.dom.DOMSource(dom),
+                new javax.xml.transform.stream.StreamResult(tokenWriter));
+            context.httpSession.setAttribute("SAMLToken", tokenWriter.toString());
     	}
     	else {
     		log.error("[SAML] response assertion is invalid !");

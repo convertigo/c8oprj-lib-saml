@@ -24,9 +24,21 @@ comment: Checks if the session is already SAML authenticated and if not computes
         nodeText: object
       ↓attributes [steps.SimpleIteratorStep-1707471653709]: 
         expression: |
-          var twsApi = new com.twinsoft.convertigo.engine.util.TwsCachedXPathAPI();
+          'var twsApi = new com.twinsoft.convertigo.engine.util.TwsCachedXPathAPI();
           var dom = context.httpSession.getAttribute("SAMLToken");
-          twsApi.selectNodeList(dom, "//Attribute");
+          // Preserve compatibility with existing in-memory DOM session tokens.
+          if (typeof dom === "string" || dom instanceof java.lang.String) {
+              var tokenFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+              tokenFactory.setNamespaceAware(true);
+              tokenFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+              tokenFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+              tokenFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+              tokenFactory.setXIncludeAware(false);
+              tokenFactory.setExpandEntityReferences(false);
+              dom = tokenFactory.newDocumentBuilder().parse(
+                  new org.xml.sax.InputSource(new java.io.StringReader(String(dom))));
+          }
+          twsApi.selectNodeList(dom, "//Attribute");'
         ↓attribute [steps.ElementStep-1707472044335]: 
           expression: item.getTextContent()
           nodeName: attribute
